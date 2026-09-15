@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+/* bg-emerald-500/10 */
 
 :root {
   --background: #faf9f5;
@@ -10,7 +11,7 @@
   --popover: #ffffff;
   --popover-foreground: #28261b;
   --primary: #c96442;
-  --primary-foreground: #ffffff;
+   --primary-foreground: #ffffff;
   --secondary: #e9e6dc;
   --secondary-foreground: #535146;
   --muted: #ede9de;
