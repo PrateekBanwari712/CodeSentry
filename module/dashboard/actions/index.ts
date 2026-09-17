@@ -3,10 +3,8 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { fetchUserContribution, getGithubToken } from "@/module/github/lib/github";
-import { User } from "lucide-react";
 import { headers } from "next/headers";
 import {Octokit} from "octokit";
-import { totalmem } from "os";
 
 
 export const getDashboardStats= async() => {
@@ -81,6 +79,7 @@ export const getContributionStats = async () => {
         const calendar = await fetchUserContribution(token, userName)
 
         if(!calendar) {
+            throw new Error("no Calender")
             return null
         }
 
@@ -91,8 +90,7 @@ export const getContributionStats = async () => {
             level: Math.min(4, Math.floor(day.contributionCount / 3)),
         })))
 
-		console.error("hello")
-        return {
+		return {
             contributions,
             totalContributions: calendar.totalContributions,
         }
