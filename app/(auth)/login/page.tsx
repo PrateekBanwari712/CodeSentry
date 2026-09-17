@@ -290,7 +290,7 @@ export const LoginPage_UI = () => {
 
       {/* Footer */}
       <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 py-6 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} CodeSentry, Inc. All rights reserved.
+        &copy; 1956 CodeSentry, Inc. All rights reserved.
         Built for security-first engineering teams.
       </footer>
     </div>

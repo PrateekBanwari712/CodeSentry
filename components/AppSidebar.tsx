@@ -51,22 +51,22 @@ const AppSidebar = () => {
     },
     {
       title: "Repository",
-      url: "/repository",
+      url: "/dashboard/repository",
       icon: GitBranch,
     },
     {
       title: "Reviews",
-      url: "/reviews",
+      url: "/dashboard/reviews",
       icon: MessageSquareCheck,
     },
     {
       title: "Subscription",
-      url: "/subscription",
+      url: "/dashboard/subscription",
       icon: CreditCard,
     },
     {
       title: "Settings",
-      url: "/settings",
+      url: "/dashboard/settings",
       icon: Settings,
     },
   ];
@@ -97,7 +97,7 @@ const AppSidebar = () => {
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Image
                 src={github}
-                className='w-5 h-5 fill-current" viewBox="0 0 24 24'
+                className='w-10 h-10 fill-current" viewBox="0 0 24 24'
                 alt="github"
               />
             </div>
@@ -106,7 +106,7 @@ const AppSidebar = () => {
                 Connected Account
               </p>
               <p className="text-sm font-medium text-sidebar-foreground">
-                @userName
+                @{userName}
               </p>
             </div>
           </div>
