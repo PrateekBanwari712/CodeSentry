@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 import {Octokit} from "octokit";
 
 
-export const getDashboardStats= async() => {
+export const getDashboardStats = async() => {
     try {
         const session = await auth.api.getSession({
             headers: await headers(),
@@ -27,7 +27,9 @@ export const getDashboardStats= async() => {
         // Fetching Repo data from db;
 
         const totalRepos = 30;
-        const totalCommits = 14;
+
+        const calendar = await fetchUserContribution(token, user.login)
+        const totalCommits = calendar?.totalContributions || 0;
 
         const {data: prs} = await octokit.rest.search.issuesAndPullRequests({
             q: `author:${user.login} type:pr`,
@@ -79,7 +81,6 @@ export const getContributionStats = async () => {
         const calendar = await fetchUserContribution(token, userName)
 
         if(!calendar) {
-            throw new Error("no Calender")
             return null
         }
 
@@ -96,7 +97,8 @@ export const getContributionStats = async () => {
         }
 
     } catch (error) {
-        
+        console.error("Error fetching contribution stats:", error);
+        return null;
     }
 }
 

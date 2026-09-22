@@ -1,3 +1,5 @@
+"use server"
+
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { headers } from "next/headers";
@@ -55,7 +57,7 @@ export const fetchUserContribution = async (
     const response: any = await octokit.graphql(query, {
       userName,
     });
-    return response?.user?.contributionCollection?.contributionCalendar;
+    return response?.user?.contributionsCollection?.contributionCalendar;
   } catch (error) {
     console.error("Error fetching contributions:", error);
     return null;
@@ -138,37 +140,42 @@ export const deleteWebhook = async (owner: string, repo: string) => {
   }
 };
 
-export const getRepoFileContents = async (token: string, owner: string, repo: string, path: string = ""): Promise<{ path: string; content: string }[]>  => {
-  const octokit = new Octokit({auth: token});
+export const getRepoFileContents = async (
+  token: string,
+  owner: string,
+  repo: string,
+  path: string = "",
+): Promise<{ path: string; content: string }[]> => {
+  const octokit = new Octokit({ auth: token });
 
-  const {data} = await octokit.rest.repos.getContent({
+  const { data } = await octokit.rest.repos.getContent({
     owner,
     repo,
     path,
   });
 
-  if(!Array.isArray(data)) {
+  if (!Array.isArray(data)) {
     // if not array than a file
-    if (data.type === "file" && data.content){
+    if (data.type === "file" && data.content) {
       return [
         {
           path: data.path,
           content: Buffer.from(data.content, "base64").toString("utf-8"),
         },
-      ]
+      ];
     }
-    return []
+    return [];
   }
 
-  let files : {path: string; content: string }[] = []
+  let files: { path: string; content: string }[] = [];
 
-  for(const item of data) {
-    if(item.type === "file") {
-      const {data: fileData} = await octokit.rest.repos.getContent({
+  for (const item of data) {
+    if (item.type === "file") {
+      const { data: fileData } = await octokit.rest.repos.getContent({
         owner,
         repo,
         path: item.path,
-      })
+      });
 
       if (
         !Array.isArray(fileData) &&
@@ -181,7 +188,7 @@ export const getRepoFileContents = async (token: string, owner: string, repo: st
           files.push({
             path: item.path,
             content: Buffer.from(fileData.content, "base64").toString("utf-8"),
-          })
+          });
         }
       }
     } else if (item.type === "dir") {
@@ -190,4 +197,34 @@ export const getRepoFileContents = async (token: string, owner: string, repo: st
     }
   }
   return files;
+};
+
+export const getPullRequestDiff = async (
+  token: string,
+  owner: string,
+  repo: string,
+  prNumber: number,
+) => {
+  const octokit = new Octokit({ auth: token });
+
+  const { data: pr } = await octokit.rest.pulls.get({
+    owner,
+    repo,
+    pull_number: prNumber,
+  });
+
+  const { data: diff } = await octokit.rest.pulls.get({
+    owner,
+    repo,
+    pull_number: prNumber,
+    mediaType: {
+      format: "diff",
+    },
+  });
+
+  return {
+    diff: diff as unknown as string,
+    title: pr.title,
+    description: pr.body || "",
+  };
 };
