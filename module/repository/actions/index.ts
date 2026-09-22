@@ -1,5 +1,6 @@
 "use server"
 
+import { inngest } from "@/inngest/client"
 import { auth } from "@/lib/auth"
 import prisma from "@/lib/db"
 import { createWebhook, getRepositories } from "@/module/github/lib/github"
@@ -48,6 +49,10 @@ export const connectRepositories = async (
 
     const webhook = await createWebhook(owner, repo);
 
+    if(!webhook){
+        throw new Error("Failed to create Github webhook");
+    }
+
     if(webhook) {
         await prisma.repository.create({
             data: {
@@ -62,6 +67,19 @@ export const connectRepositories = async (
     }
 
     // TODO: TRIGGER REPOSITORY INDEXING FOR RAG (FIRE AND FORGET)
+
+    try {
+        await inngest.send({
+            name: "repository.connected",
+            data: {
+                owner,
+                repo,
+                userId: session.user.id,
+            }
+        })
+    } catch (error) {
+        console.error("Failed to trigger repository indexing:", error)
+    }
 
     return webhook;
 }
