@@ -153,7 +153,7 @@ const MainPage = () => {
                     <YAxis />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "var(--backgorund)",
+                        backgroundColor: "var(--background)",
                         borderColor: "var(--border)",
                       }}
                       itemStyle={{ color: "var(--foreground)" }}

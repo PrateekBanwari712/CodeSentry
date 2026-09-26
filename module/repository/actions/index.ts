@@ -4,6 +4,7 @@ import { inngest } from "@/inngest/client"
 import { auth } from "@/lib/auth"
 import prisma from "@/lib/db"
 import { createWebhook, getRepositories } from "@/module/github/lib/github"
+import { incrementRepositoryCount } from "@/module/payment/lib/subscription"
 import { headers } from "next/headers"
 
 
@@ -65,6 +66,8 @@ export const connectRepositories = async (
             },
         })
     }
+
+    await incrementRepositoryCount(session.user.id);
 
     // TODO: TRIGGER REPOSITORY INDEXING FOR RAG (FIRE AND FORGET)
 

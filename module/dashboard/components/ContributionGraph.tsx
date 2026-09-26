@@ -1,11 +1,11 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { getContributionStats } from "../actions";
 import { useTheme } from "next-themes";
-import {ActivityCalendar} from "react-activity-calendar"
+import { ActivityCalendar } from "react-activity-calendar";
 
 const ContributionGraph = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const { data, isLoading } = useQuery({
     queryKey: ["contribution-graph"],
@@ -50,8 +50,20 @@ const ContributionGraph = () => {
             showMonthLabels
             showWeekdayLabels
             theme={{
-              light: ["hsl(0, 0%, 92%)", "hsl(142, 71%, 45%)"],
-              dark: ["#161b22", "hsl(142, 72%, 45%)"],
+              light: [
+                "#ebedf0", // Level 0: No contributions (light gray)
+                "#9be9a8", // Level 1: Low
+                "#40c463", // Level 2: Medium-low
+                "#30a14e", // Level 3: Medium-high
+                "#216e39", // Level 4: High (dark green)
+              ],
+              dark: [
+                "#151b23", // Level 0: No contributions (dark gray/navy, GitHub style)
+                "#0e4429", // Level 1: Low
+                "#006d32", // Level 2: Medium-low
+                "#26a641", // Level 3: Medium-high
+                "#39d353", // Level 4: High (bright green)
+              ],
             }}
           />
         </div>

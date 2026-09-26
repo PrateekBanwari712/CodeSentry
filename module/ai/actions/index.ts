@@ -1,7 +1,7 @@
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
 import { getPullRequestDiff } from "@/module/github/lib/github";
-import { canCreateReview } from "@/module/payment/lib/subscription";
+import { canCreateReview, incrementReviewCount } from "@/module/payment/lib/subscription";
 
 export const reviewPullRequest = async (
   owner: string,
@@ -45,9 +45,8 @@ export const reviewPullRequest = async (
       throw new Error("No Github access token found for repository owner");
     }
 
-    // getting difference in pull req
-    // const token = githubAccount.accessToken;
-    // const {title} = await getPullRequestDiff(token, owner, repo, prNumber);
+    const token = githubAccount.accessToken;
+    const {title} = await getPullRequestDiff(token, owner, repo, prNumber);
 
     await inngest.send({
       name: "pr.review.requested",
@@ -58,6 +57,8 @@ export const reviewPullRequest = async (
         userId: repository.user.id,
       },
     });
+
+    await incrementReviewCount(repository.user.id, repository.id)
 
     return { success: true, message: "review queued" };
   } catch (error) {

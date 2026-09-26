@@ -123,43 +123,10 @@ function SubscriptionContent() {
   const isPro = currentTier === "PRO";
   const isActive = data.user.subscriptionStatus === "ACTIVE";
 
-  // const handleSync = async () => {
-  //   try {
-  //     setSyncLoading(true);
-  //     const result = await syncSubscriptionStatus();
-
-  //     if(!result) {
-  //       throw new Error("No response from server")
-  //     }
-
-  //     if (result.success) {
-  //       toast.add({
-  //         type: "success",
-  //         title: "Subscription status updated",
-  //       });
-  //     } else {
-  //       toast.add({
-  //         type:"error",
-  //         title: result.error 
-  //         // "Failed to sync subscription",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     toast.add({
-  //       type: "error",
-  //       title:"Failed to sync subscription",
-  //     });
-  //   } finally {
-  //     setSyncLoading(false);
-  //   }
-  // };
-
-  const handleSync = async () => {
+    const handleSync = async () => {
     try {
       setSyncLoading(true);
       const result = await syncSubscriptionStatus();
-
-      console.log("Sync Result:", result); // Check what this prints
 
       if (!result) {
         throw new Error("Result is undefined");
@@ -186,6 +153,8 @@ function SubscriptionContent() {
       setSyncLoading(false);
     }
   };
+
+
   const handleUpgradePlan = async () => {
     try {
       setCheckoutLoading(true);
