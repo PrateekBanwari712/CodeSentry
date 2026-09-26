@@ -1,24 +1,34 @@
-import { NextRequest, NextResponse } from "next/server";
+import { reviewPullRequest } from "@/module/ai/actions";
+import { NextResponse, NextRequest } from "next/server";
 
-
-export const POST = async (req: NextRequest) => {
+export async function POST(req:NextRequest){
     try {
         const body = await req.json();
         const event = req.headers.get("x-github-event");
 
-        if( event === "ping") {
+        if(event === "ping"){
             return NextResponse.json({message:"Pong"}, {status: 200})
         }
-        console.log(`Recieved Gtihub event ${event}`)
-        
-        // HANDLE LATER
+        console.log(`Recieved Github event ${event}`);
 
-        return NextResponse.json({message: "Event Processes"})
+        if(event === "pull_request"){
+            const action = body.action;
+            const repo = body.repository.full_name;
+            const prNumber = body.number;
 
+            const [owner, repoName] = repo.split("/");
+
+            if(action === "opened" || action === "synchronize"){
+                reviewPullRequest(owner, repoName, prNumber)
+                .then(()=> console.log(`Review completed for ${repo} #${prNumber}`))
+                .catch((error) => console.error(`Failed to Review ${repo} # {prNumber}: `, error))
+            }
+        }
+
+        return NextResponse.json({message:"Event Processes"}, {status:200})
     } catch (error) {
         console.error("Error processing webhook:", error);
-        return NextResponse.json({error: "Internal Server Error"},
-            {status: 500}
-        );
+        return NextResponse.json({error:"Internal Server Error"}, {status:500});
+        
     }
 }

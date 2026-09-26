@@ -1,6 +1,7 @@
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
 import { getPullRequestDiff } from "@/module/github/lib/github";
+import { canCreateReview } from "@/module/payment/lib/subscription";
 
 export const reviewPullRequest = async (
   owner: string,
@@ -30,6 +31,12 @@ export const reviewPullRequest = async (
       throw new Error(
         `Repository ${owner}/${repo} not found in database. Please reconnect the repository.`,
       );
+    }
+
+    const canReview = await canCreateReview(repository.user.id, repository.id);
+
+    if(!canReview) {
+      throw new Error("Review limit reached for this repository. Please ugrade to Pro for unlimited reviews.")
     }
 
     const githubAccount = repository.user.accounts[0];

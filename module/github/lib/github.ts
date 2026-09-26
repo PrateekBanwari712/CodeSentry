@@ -85,8 +85,8 @@ export const getRepositories = async (
 export const createWebhook = async (owner: string, repo: string) => {
   const token = await getGithubToken();
   const octokit = new Octokit({ auth: token });
-
-  const webhookUrl = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/api/webhooks/github`;
+  
+  const webhookUrl = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/api/webhook/github`;
 
   const { data: hooks } = await octokit.rest.repos.listWebhooks({
     owner,
@@ -228,3 +228,14 @@ export const getPullRequestDiff = async (
     description: pr.body || "",
   };
 };
+
+export async function postReviewComment(token: string, owner:string, repo: string, prNumber: number, review:string) {
+  const octokit = new Octokit({auth: token});
+
+  await octokit.rest.issues.createComment({
+    owner,
+    repo,
+    issue_number: prNumber,
+    body: `## 🤖 Code-Sentry \n\n ${review}\n\n---\n *Your Ai code review generator*`
+  })
+}
