@@ -2,6 +2,7 @@ import prisma from "@/lib/db";
 import { inngest } from "../client";
 import { getRepoFileContents } from "@/module/github/lib/github";
 import { indexCodebase } from "@/module/ai/lib/rag";
+import { getRepoKey } from "@/lib/repo";
 
 export const indexRepo = inngest.createFunction(
   {
@@ -29,7 +30,8 @@ export const indexRepo = inngest.createFunction(
 
     // indexing the code data - pineCone RAG
     await step.run("index-codebase", async () => {
-        await indexCodebase(`${owner}/${repo}`, files)
+        const repoKey = getRepoKey(owner, repo);
+        await indexCodebase(repoKey, files)
     })
 
     return {success: true, indexedFiles:files.lastIndexOf}

@@ -32,7 +32,7 @@ export async function getUserProfile() {
 
     return user;
   } catch (error) {
-    console.log("Error fetching user profile:", error);
+    console.error("Error fetching user profile:", error);
     return null;
   }
 }
@@ -132,16 +132,20 @@ export async function disconnectRepository(repositoryId: string) {
       throw new Error("Repository not found");
     }
 
-    await deleteWebhook(repository.owner, repository.name);
+   const webhookDelete =  await deleteWebhook(repository.owner, repository.name);
 
-    await prisma.repository.delete({
-      where: {
-        id: repository.id,
-        userId: session.user.id,
-      },
-    });
+    if (webhookDelete) {
+      await prisma.repository.delete({
+        where: {
+          id: repository.id,
+          userId: session.user.id,
+        },
+      });
+    } else {
+      throw new Error ("repo webhook Deletion Failed")
+    }
 
-    revalidatePath("/dashborad/setting", "page");
+    revalidatePath("/dashboard/setting", "page");
     revalidatePath("/dashborad/repository", "page");
     return { success: true };
   } catch (error) {

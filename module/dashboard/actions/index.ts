@@ -219,7 +219,7 @@ export const getMonthlyActivity = async () => {
       ...monthlyData[name],
     }));
   } catch (error) {
-    console.log("Error fetching monthly activity:", error);
+    console.error("Error fetching monthly activity:", error);
     return [];
   }
 };

@@ -26,8 +26,8 @@ export const auth = betterAuth({
     },
   },
   trustedOrigins: [
-    "http://localhost:3000",
-    "https://pushpin-onset-ducktail.ngrok-free.dev",
+    process.env.BETTER_AUTH_URL!,
+    process.env.NEXT_PUBLIC_APP_BASE_URL!,
   ],
   plugins: [
     polar({
@@ -37,11 +37,12 @@ export const auth = betterAuth({
         checkout({
           products: [
             {
-              productId: "4a860816-c1f6-49f5-82d4-083c00b0738d",
+              productId: process.env.POLAR_PRODUCT_ID!,
               slug: "code-review",
             },
           ],
-          successUrl: process.env.POLAR_SUCCESS_URL ||
+          successUrl:
+            process.env.POLAR_SUCCESS_URL ||
             "/dashboard/subscription?success=true",
           authenticatedUsersOnly: true,
         }),
