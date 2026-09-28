@@ -55,13 +55,21 @@ ${diff}
 \`\`\`
 
 Please provide:
-1. **Walkthrough**: A file-by-file explanation of the changes.
-2. **Sequence Diagram**: A Mermaid JS sequence diagram visualizing the flow of the changes (if applicable). Use \`\`\`mermaid ... \`\`\` block. **IMPORTANT**: Ensure the Mermaid syntax is valid. Do not use special characters (like quotes, braces, parentheses) inside Note text or labels as it breaks rendering. Keep the diagram simple.
-3. **Summary**: Brief overview.
-4. **Strengths**: What's done well.
-5. **Issues**: Bugs, security concerns, code smells.
-6. **Suggestions**: Specific code improvements.
-7. **Poem**: A short, creative poem summarizing the changes at the very end.
+{
+  summary: "...",
+  walkthrough: [],
+  issues: [
+    {
+      severity: "high",
+      file: "...",
+      line: 42,
+      explanation: "...",
+      suggestion: "..."
+    }
+  ],
+  strengths: [],
+  architecture: "..."
+}
 
 Format your response in markdown.`;
 
