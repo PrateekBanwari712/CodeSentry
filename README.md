@@ -194,7 +194,7 @@ GITHUB_CLIENT_SECRET="your-github-client-secret"
 GITHUB_WEBHOOK_SECRET="your-github-webhook-secret"
 
 # Public application URL
-NEXT_PUBLIC_APP_BASE_URL="https://your-ngrok-url"
+APP_BASE_URL="https://your-ngrok-url"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
 # Google Gemini
@@ -243,7 +243,7 @@ ngrok http 3000
 Use the generated public URL as:
 
 ```env
-NEXT_PUBLIC_APP_BASE_URL="https://your-ngrok-url"
+APP_BASE_URL="https://your-ngrok-url"
 ```
 
 Then open:
@@ -295,7 +295,7 @@ GITHUB_CLIENT_ID
 GITHUB_CLIENT_SECRET
 GITHUB_WEBHOOK_SECRET
 
-NEXT_PUBLIC_APP_BASE_URL
+APP_BASE_URL
 NEXT_PUBLIC_APP_URL
 
 GOOGLE_GENERATIVE_AI_API_KEY
@@ -314,7 +314,7 @@ For production, update:
 
 ```env
 BETTER_AUTH_URL="https://your-domain.vercel.app"
-NEXT_PUBLIC_APP_BASE_URL="https://your-domain.vercel.app"
+APP_BASE_URL="https://your-domain.vercel.app"
 NEXT_PUBLIC_APP_URL="https://your-domain.vercel.app"
 ```
 

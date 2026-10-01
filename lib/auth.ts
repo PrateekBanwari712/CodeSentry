@@ -27,7 +27,7 @@ export const auth = betterAuth({
   },
   trustedOrigins: [
     process.env.BETTER_AUTH_URL!,
-    process.env.NEXT_PUBLIC_APP_BASE_URL!,
+    process.env.APP_BASE_URL!,
   ],
   plugins: [
     polar({
