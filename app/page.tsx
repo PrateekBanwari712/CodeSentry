@@ -2,7 +2,7 @@ import { requireAuth } from "@/module/auth/utils/auth_utils";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 
-export const Home = async () => {
+const Home = async () => {
   try {
     await requireAuth();
     return redirect("/dashboard");
@@ -13,3 +13,5 @@ export const Home = async () => {
     console.error(error);
   }
 }
+
+export default Home;
