@@ -1,8 +1,10 @@
 import { requireAuth } from "@/module/auth/utils/auth_utils";
+import { DashboardSkeleton } from "@/module/dashboard/components/Dashboard-Skeleton";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
-const Home = async () => {
+async function Home_Fnc() {
   try {
     await requireAuth();
     return redirect("/dashboard");
@@ -14,4 +16,10 @@ const Home = async () => {
   }
 }
 
-export default Home;
+export default async function Home() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <Home_Fnc />
+    </Suspense>
+  );
+}

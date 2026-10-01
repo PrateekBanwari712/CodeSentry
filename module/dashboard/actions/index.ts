@@ -59,8 +59,10 @@ export const getDashboardStats = async () => {
     });
 
     const totalPRs = prs.total_count;
+   
+    const reviews =  await getReviews();
 
-    const totalReviews = await getReviews.length;
+    const totalReviews = reviews.length;
 
     return {
       totalCommits,

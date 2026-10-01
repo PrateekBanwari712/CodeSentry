@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Card,
   CardContent,
@@ -30,11 +30,9 @@ import {
   YAxis,
 } from "recharts";
 import { Spinner } from "@/components/ui/spinner";
+import { DashboardSkeleton } from "@/module/dashboard/components/Dashboard-Skeleton";
 
-const MainPage = () => {
-
-  
-
+const MainPage_Ui = () => {
   const { data: stats, isLoading } = useQuery({
     queryKey: ["dashboard-stats"],
     queryFn: async () => await getDashboardStats(),
@@ -168,7 +166,7 @@ const MainPage = () => {
                       fill="#3b82f6"
                       radius={[4, 4, 0, 0]}
                     />
-                     <Bar
+                    <Bar
                       dataKey={"reviews"}
                       name="AI Reviews"
                       fill="#10b981"
@@ -180,7 +178,6 @@ const MainPage = () => {
                       fill="#8b5cf6"
                       radius={[4, 4, 0, 0]}
                     />
-                   
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -192,4 +189,10 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default function MainPage() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <MainPage_Ui />
+    </Suspense>
+  );
+}
