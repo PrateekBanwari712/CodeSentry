@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ShieldAlert,
   Lock,
@@ -14,10 +14,8 @@ import github from "@/public/github.svg";
 import Image from "next/image";
 import { signIn } from "@/lib/auth-client";
 import Logo from "@/module/logo/components/Logo";
-import { Spinner } from "@/components/ui/spinner";
 
-
-export const LoginPage = () => {
+export const LoginPage_UI = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(false);
 
@@ -300,13 +298,4 @@ export const LoginPage = () => {
   );
 };
 
-export const LoginPage_UI = () => {
-  return (
-    <Suspense fallback={<div className="h-full w-full flex items-center justify-center">
-      <Spinner/>
-    </div>}>
-      <LoginPage/>
-    </Suspense>
-  )
-}
 export default LoginPage_UI;

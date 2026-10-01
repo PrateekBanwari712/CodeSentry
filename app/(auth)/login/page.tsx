@@ -1,14 +1,18 @@
-import LoginPage_UI from '@/module/auth/components/Login_UI'
-import { requireUnAuth } from '@/module/auth/utils/auth_utils'
-import React from 'react'
+import LoginPage_UI from "@/module/auth/components/Login_UI";
+import { requireUnAuth } from "@/module/auth/utils/auth_utils";
+import React, { Suspense } from "react";
 
-export const dynamic = 'force-dynamic';
-
-const LoginPage = async () => {
+async function LoginGate() {
   await requireUnAuth();
-  return (
-    <LoginPage_UI/>
-  )
+  return <LoginPage_UI />;
 }
 
-export default LoginPage
+const LoginPage = async () => {
+  return (
+    <Suspense fallback={null}>
+      <LoginGate />
+    </Suspense>
+  );
+};
+
+export default LoginPage;
