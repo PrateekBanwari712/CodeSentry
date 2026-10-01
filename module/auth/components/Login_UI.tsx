@@ -16,7 +16,6 @@ import { signIn } from "@/lib/auth-client";
 import Logo from "@/module/logo/components/Logo";
 import { Spinner } from "@/components/ui/spinner";
 
-export const dynamic = 'force-dynamic';
 
 export const LoginPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

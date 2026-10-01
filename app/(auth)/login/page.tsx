@@ -2,6 +2,8 @@ import LoginPage_UI from '@/module/auth/components/Login_UI'
 import { requireUnAuth } from '@/module/auth/utils/auth_utils'
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 const LoginPage = async () => {
   await requireUnAuth();
   return (
