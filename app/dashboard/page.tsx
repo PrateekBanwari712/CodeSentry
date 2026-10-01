@@ -32,6 +32,9 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 
 const MainPage = () => {
+
+  
+
   const { data: stats, isLoading } = useQuery({
     queryKey: ["dashboard-stats"],
     queryFn: async () => await getDashboardStats(),
